@@ -1,0 +1,493 @@
+{
+  "generatedAt": "2026-11-24T13:38:17.710Z",
+  "repoUrl": "https://github.com/example/umbrella-tokens",
+  "collections": [
+    {
+      "name": "Primitives",
+      "modes": [
+        "Value"
+      ],
+      "count": 26
+    },
+    {
+      "name": "Semantics",
+      "modes": [
+        "Light",
+        "Dark",
+        "High contrast"
+      ],
+      "count": 12
+    },
+    {
+      "name": "Component tokens",
+      "modes": [
+        "Value"
+      ],
+      "count": 8
+    },
+    {
+      "name": "Brand",
+      "modes": [
+        "ACKO",
+        "AckoDrive"
+      ],
+      "count": 1
+    }
+  ],
+  "publishes": [
+    {
+      "sha": "1456f94fa4701ef89a8bf0f3b82d1a3e976b04eb",
+      "shortSha": "1456f94",
+      "date": "2026-11-20T12:30:00+05:30",
+      "publisher": "Arjun",
+      "note": null,
+      "libraryPublish": false,
+      "library": {},
+      "message": "Update tokens from Figma (#12)",
+      "prNumber": 12,
+      "prUrl": "https://github.com/example/umbrella-tokens/pull/12",
+      "commitUrl": "https://github.com/example/umbrella-tokens/commit/1456f94fa4701ef89a8bf0f3b82d1a3e976b04eb",
+      "source": "raw",
+      "variableCount": 47,
+      "summary": {
+        "alias_added": 1,
+        "alias_removed": 1,
+        "added": 1,
+        "collection_changed": 3
+      },
+      "changes": [
+        {
+          "type": "alias_added",
+          "collection": "Semantics",
+          "name": "overlay/scrim",
+          "varType": "COLOR",
+          "varId": "Semantics::overlay/scrim",
+          "modes": {
+            "Light": {
+              "before": "#00000066",
+              "after": "Colour/Alpha/Black/A100",
+              "afterAlias": true,
+              "afterResolved": "#0000001A"
+            }
+          }
+        },
+        {
+          "type": "alias_removed",
+          "collection": "Component tokens",
+          "name": "button/primary/label",
+          "varType": "COLOR",
+          "varId": "Components::button/primary/label",
+          "modes": {
+            "Value": {
+              "before": "Colour/Solid/Grey/White",
+              "beforeAlias": true,
+              "beforeResolved": "#FFFFFF",
+              "after": "#FFFFFF"
+            }
+          }
+        },
+        {
+          "type": "added",
+          "collection": "Brand",
+          "name": "brand/primary",
+          "varType": "COLOR",
+          "varId": "VariableID:1:148",
+          "modes": {
+            "ACKO": {
+              "after": "Colour/Solid/Purple/600",
+              "afterAlias": true,
+              "afterResolved": "#6B2FD6"
+            },
+            "AckoDrive": {
+              "after": "#0F62FE"
+            }
+          }
+        },
+        {
+          "type": "collection_changed",
+          "action": "added",
+          "collection": "Brand",
+          "modes": [
+            "ACKO",
+            "AckoDrive"
+          ]
+        },
+        {
+          "type": "collection_changed",
+          "action": "renamed",
+          "collection": "Component tokens",
+          "from": "Components",
+          "to": "Component tokens"
+        },
+        {
+          "type": "collection_changed",
+          "action": "mode_added",
+          "collection": "Semantics",
+          "mode": "High contrast"
+        }
+      ]
+    },
+    {
+      "sha": "a7eca28ced8bab26441b19bba1d7def6019b135a",
+      "shortSha": "a7eca28",
+      "date": "2026-11-12T15:08:00+05:30",
+      "publisher": "Meera",
+      "note": null,
+      "libraryPublish": false,
+      "library": {},
+      "message": "Update tokens from Figma (#9)",
+      "prNumber": 9,
+      "prUrl": "https://github.com/example/umbrella-tokens/pull/9",
+      "commitUrl": "https://github.com/example/umbrella-tokens/commit/a7eca28ced8bab26441b19bba1d7def6019b135a",
+      "source": "raw",
+      "variableCount": 46,
+      "summary": {
+        "renamed": 2,
+        "deleted": 2,
+        "added": 2,
+        "meta_changed": 3
+      },
+      "changes": [
+        {
+          "type": "renamed",
+          "collection": "Primitives",
+          "from": "Colour/Solid/Grey/950",
+          "to": "Colour/Solid/Grey/1000",
+          "name": "Colour/Solid/Grey/1000",
+          "varType": "COLOR",
+          "varId": "Primitives::Colour/Solid/Grey/950",
+          "confidence": "exact"
+        },
+        {
+          "type": "renamed",
+          "collection": "Semantics",
+          "from": "status/danger",
+          "to": "status/error",
+          "name": "status/error",
+          "varType": "COLOR",
+          "varId": "Semantics::status/danger",
+          "confidence": "exact"
+        },
+        {
+          "type": "deleted",
+          "collection": "Components",
+          "name": "button/primary/fill-hover",
+          "varType": "COLOR",
+          "varId": "Components::button/primary/fill-hover",
+          "modes": {
+            "Value": {
+              "before": "surface/action/hover",
+              "beforeAlias": true,
+              "beforeResolved": "#5A1FC2"
+            }
+          }
+        },
+        {
+          "type": "deleted",
+          "collection": "Primitives",
+          "name": "Colour/Solid/Orange/500",
+          "varType": "COLOR",
+          "varId": "Primitives::Colour/Solid/Orange/500",
+          "modes": {
+            "Value": {
+              "before": "#F59E0B"
+            }
+          }
+        },
+        {
+          "type": "added",
+          "collection": "Primitives",
+          "name": "Colour/Solid/Teal/500",
+          "varType": "COLOR",
+          "varId": "VariableID:1:146",
+          "modes": {
+            "Value": {
+              "after": "#14B8A6"
+            }
+          }
+        },
+        {
+          "type": "added",
+          "collection": "Semantics",
+          "name": "status/info",
+          "varType": "COLOR",
+          "varId": "VariableID:1:147",
+          "modes": {
+            "Light": {
+              "after": "Colour/Solid/Teal/500",
+              "afterAlias": true,
+              "afterResolved": "#14B8A6"
+            },
+            "Dark": {
+              "after": "Colour/Solid/Teal/500",
+              "afterAlias": true,
+              "afterResolved": "#14B8A6"
+            }
+          }
+        },
+        {
+          "type": "meta_changed",
+          "collection": "Primitives",
+          "name": "Colour/Alpha/Black/A100",
+          "varType": "COLOR",
+          "varId": "Primitives::Colour/Alpha/Black/A100",
+          "fields": {
+            "hidden": {
+              "before": false,
+              "after": true
+            }
+          }
+        },
+        {
+          "type": "meta_changed",
+          "collection": "Semantics",
+          "name": "border/default",
+          "varType": "COLOR",
+          "varId": "Semantics::border/default",
+          "fields": {
+            "scopes": {
+              "before": [
+                "ALL_SCOPES"
+              ],
+              "after": [
+                "STROKE_COLOR"
+              ]
+            },
+            "codeSyntax": {
+              "before": {},
+              "after": {
+                "WEB": "var(--borderDefault)"
+              }
+            }
+          }
+        },
+        {
+          "type": "meta_changed",
+          "collection": "Semantics",
+          "name": "text/secondary",
+          "varType": "COLOR",
+          "varId": "Semantics::text/secondary",
+          "fields": {
+            "description": {
+              "before": "",
+              "after": "Supporting copy, captions and helper text"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "sha": "a7a111a5eeaf1ceb5c4c98c1396e809434417145",
+      "shortSha": "a7a111a",
+      "date": "2026-10-29T11:42:00+05:30",
+      "publisher": "Fahiz",
+      "note": null,
+      "libraryPublish": false,
+      "library": {},
+      "message": "Update tokens from Figma (#7)",
+      "prNumber": 7,
+      "prUrl": "https://github.com/example/umbrella-tokens/pull/7",
+      "commitUrl": "https://github.com/example/umbrella-tokens/commit/a7a111a5eeaf1ceb5c4c98c1396e809434417145",
+      "source": "raw",
+      "variableCount": 46,
+      "summary": {
+        "alias_changed": 2,
+        "value_changed": 5
+      },
+      "changes": [
+        {
+          "type": "alias_changed",
+          "collection": "Components",
+          "name": "button/radius",
+          "varType": "FLOAT",
+          "varId": "Components::button/radius",
+          "modes": {
+            "Value": {
+              "before": "Radius/md",
+              "beforeAlias": true,
+              "beforeResolved": 8,
+              "after": "Radius/lg",
+              "afterAlias": true,
+              "afterResolved": 12
+            }
+          }
+        },
+        {
+          "type": "alias_changed",
+          "collection": "Semantics",
+          "name": "surface/action/default",
+          "varType": "COLOR",
+          "varId": "Semantics::surface/action/default",
+          "modes": {
+            "Light": {
+              "before": "Colour/Solid/Purple/600",
+              "beforeAlias": true,
+              "beforeResolved": "#6A35CF",
+              "after": "Colour/Solid/Purple/700",
+              "afterAlias": true,
+              "afterResolved": "#5A1FC2"
+            }
+          }
+        },
+        {
+          "type": "value_changed",
+          "collection": "Components",
+          "name": "card-surface/padding",
+          "varType": "FLOAT",
+          "varId": "Components::card/padding",
+          "modes": {
+            "Value": {
+              "before": 16,
+              "after": 20
+            }
+          }
+        },
+        {
+          "type": "value_changed",
+          "collection": "Primitives",
+          "name": "Colour/Solid/Purple/600",
+          "varType": "COLOR",
+          "varId": "Primitives::Colour/Solid/Purple/600",
+          "modes": {
+            "Value": {
+              "before": "#6A35CF",
+              "after": "#6B2FD6"
+            }
+          }
+        },
+        {
+          "type": "value_changed",
+          "collection": "Primitives",
+          "name": "Colour/Solid/Purple/700",
+          "varType": "COLOR",
+          "varId": "Primitives::Colour/Solid/Purple/700",
+          "modes": {
+            "Value": {
+              "before": "#5920C5",
+              "after": "#5A1FC2"
+            }
+          }
+        },
+        {
+          "type": "value_changed",
+          "collection": "Primitives",
+          "name": "Space/12",
+          "varType": "FLOAT",
+          "varId": "Primitives::Space/12",
+          "modes": {
+            "Value": {
+              "before": 12,
+              "after": 14
+            }
+          }
+        },
+        {
+          "type": "value_changed",
+          "collection": "Semantics",
+          "name": "overlay/scrim",
+          "varType": "COLOR",
+          "varId": "Semantics::overlay/scrim",
+          "modes": {
+            "Dark": {
+              "before": "#000000B3",
+              "after": "#000000CC"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "sha": "06a18d8ac72bbc4f8975a27aec4d7ceae5e75127",
+      "shortSha": "06a18d8",
+      "date": "2026-10-14T16:20:00+05:30",
+      "publisher": "Priya",
+      "note": null,
+      "libraryPublish": false,
+      "library": {},
+      "message": "Update tokens from Figma (#4)",
+      "prNumber": 4,
+      "prUrl": "https://github.com/example/umbrella-tokens/pull/4",
+      "commitUrl": "https://github.com/example/umbrella-tokens/commit/06a18d8ac72bbc4f8975a27aec4d7ceae5e75127",
+      "source": "tokens",
+      "variableCount": 46,
+      "summary": {
+        "renamed": 3
+      },
+      "changes": [
+        {
+          "type": "renamed",
+          "collection": "Components",
+          "from": "card/border/default",
+          "to": "card-surface/border/default",
+          "name": "card-surface/border/default",
+          "varType": "COLOR",
+          "varId": "Components::card/border/default",
+          "confidence": "inferred"
+        },
+        {
+          "type": "renamed",
+          "collection": "Components",
+          "from": "card/fill/default",
+          "to": "card-surface/fill/default",
+          "name": "card-surface/fill/default",
+          "varType": "COLOR",
+          "varId": "Components::card/fill/default",
+          "confidence": "inferred"
+        },
+        {
+          "type": "renamed",
+          "collection": "Components",
+          "from": "card/padding",
+          "to": "card-surface/padding",
+          "name": "card-surface/padding",
+          "varType": "FLOAT",
+          "varId": "Components::card/padding",
+          "confidence": "inferred"
+        }
+      ]
+    },
+    {
+      "sha": "2cd2d41df32322ec0d30626442efab01ab3161d5",
+      "shortSha": "2cd2d41",
+      "date": "2026-10-06T10:05:00+05:30",
+      "publisher": "Fahiz",
+      "note": null,
+      "libraryPublish": false,
+      "library": {},
+      "message": "Update tokens from Figma (#1)",
+      "prNumber": 1,
+      "prUrl": "https://github.com/example/umbrella-tokens/pull/1",
+      "commitUrl": "https://github.com/example/umbrella-tokens/commit/2cd2d41df32322ec0d30626442efab01ab3161d5",
+      "source": "tokens",
+      "variableCount": 46,
+      "baseline": true,
+      "collections": [
+        {
+          "name": "Primitives",
+          "modes": [
+            "Value"
+          ],
+          "count": 26
+        },
+        {
+          "name": "Semantics",
+          "modes": [
+            "Dark",
+            "Light"
+          ],
+          "count": 11
+        },
+        {
+          "name": "Components",
+          "modes": [
+            "Value"
+          ],
+          "count": 9
+        }
+      ],
+      "summary": {},
+      "changes": []
+    }
+  ],
+  "sample": true
+}

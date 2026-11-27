@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Umbrella variable changelog</title>
+<link rel="preload" href="https://pub-c050457d48794d5bb9ffc2b4649de2c1.r2.dev/Euclid%20Font/EuclidCircularB-Regular.otf" as="font" type="font/opentype" crossorigin>
+<style>
+@font-face { font-family: 'Euclid Circular B'; font-weight: 400; font-display: swap; src: url('https://pub-c050457d48794d5bb9ffc2b4649de2c1.r2.dev/Euclid%20Font/EuclidCircularB-Regular.otf') format('opentype'); }
+@font-face { font-family: 'Euclid Circular B'; font-weight: 500; font-display: swap; src: url('https://pub-c050457d48794d5bb9ffc2b4649de2c1.r2.dev/Euclid%20Font/EuclidCircularB-Medium.otf') format('opentype'); }
+@font-face { font-family: 'Euclid Circular B'; font-weight: 600; font-display: swap; src: url('https://pub-c050457d48794d5bb9ffc2b4649de2c1.r2.dev/Euclid%20Font/EuclidCircularB-SemiBold.otf') format('opentype'); }
+
+:root {
+  --font-sans: 'Euclid Circular B', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  --page: #ffffff;
+  --page-2: #f8f7fc;
+  --raised: #ffffff;
+  --text: #121212;
+  --text-2: #55545e;
+  --text-3: #85848f;
+  --border: #e9e8ef;
+  --border-strong: #d4d2dc;
+  --accent: #6a35cf;
+  --accent-soft: #f1ebfc;
+  --focus: rgba(106, 53, 207, 0.45);
+  --mark: #fff1c2;
+  --scrim: rgba(18, 18, 18, 0.32);
+
+  --c-added: #1a8f4a;
+  --c-deleted: #d6303a;
+  --c-renamed: #2a63d4;
+  --c-changed: #c27a00;
+  --c-meta: #7b7a85;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-drawer: 0 12px 40px rgba(18, 18, 18, 0.16);
+
+  --z-sticky: 10;
+  --z-modal: 40;
+  --z-toast: 50;
+
+  /* Motion: approximations of the ACKO drawer curves (open 500ms ease-out, close 400ms ease-in). */
+  --ease-out: cubic-bezier(0, 0, 0.4, 1);
+  --ease-in: cubic-bezier(0.6, 0, 1, 1);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--page); color: var(--text); font: 400 14px/1.5 var(--font-sans); overflow-x: hidden; }
+button, input, select { font: inherit; color: inherit; }
+a { color: var(--accent); text-underline-offset: 2px; }
+:focus { outline: none; }
+:focus-visible { box-shadow: 0 0 0 2px var(--focus); border-radius: var(--radius-sm); }
+.mono { font-family: var(--font-mono); font-size: 0.92em; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+[hidden] { display: none !important; }
+
+/* ---------- Header ---------- */
+.shell { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 600px) { .shell { padding: 0 32px; } }
+@media (min-width: 1024px) { .shell { padding: 0 40px; } }
+
+header.top { padding: 28px 0 16px; }
+header.top h1 { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
+@media (min-width: 600px) { header.top h1 { font-size: 26px; } }
+header.top p { margin: 4px 0 0; color: var(--text-2); }
+.stats { margin-top: 8px; color: var(--text-3); font-size: 13px; }
+
+.banner { margin: 0 0 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--page-2); color: var(--text-2); font-size: 13px; }
+
+/* ---------- Controls ---------- */
+.controls { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--page); padding: 12px 0; border-bottom: 1px solid var(--border); display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+.controls .search { grid-column: 1 / -1; }
+@media (min-width: 600px) { .controls { grid-template-columns: minmax(200px, 2fr) repeat(3, minmax(0, 1fr)); align-items: center; } .controls .search { grid-column: auto; } }
+.field { position: relative; min-width: 0; }
+.field input, .field select { width: 100%; min-height: 44px; border: 1px solid var(--border-strong); background: var(--raised); border-radius: var(--radius-md); padding: 0 12px; font-size: 16px; }
+.field select { appearance: none; padding-right: 32px; background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%), linear-gradient(135deg, var(--text-3) 50%, transparent 50%); background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%; background-size: 5px 5px; background-repeat: no-repeat; text-overflow: ellipsis; }
+.field input:focus-visible, .field select:focus-visible { border-color: var(--accent); }
+@media (min-width: 600px) { .field input, .field select { font-size: 14px; min-height: 40px; } }
+.filter-note { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; color: var(--text-2); font-size: 13px; min-height: 20px; }
+.link-btn { background: none; border: 0; padding: 4px 2px; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; min-height: 32px; }
+
+/* ---------- Layout ---------- */
+.layout { display: block; padding: 16px 0 64px; }
+@media (min-width: 1024px) { .layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 40px; align-items: start; } }
+
+/* Timeline */
+.timeline-wrap { display: none; }
+@media (min-width: 1024px) { .timeline-wrap { display: block; position: sticky; top: 132px; max-height: calc(100vh - 148px); overflow-y: auto; padding: 2px; margin: -2px; } }
+.timeline-label { font-size: 12px; color: var(--text-3); margin: 0 0 8px 12px; }
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li + li { margin-top: 2px; }
+.pub { width: 100%; text-align: left; background: none; border: 0; border-radius: var(--radius-md); padding: 10px 12px 10px 14px; cursor: pointer; display: block; position: relative; min-height: 44px; transition: background-color 120ms linear; }
+.pub::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 3px; background: transparent; }
+@media (hover: hover) { .pub:hover { background: var(--page-2); } }
+.pub[aria-current='true'] { background: var(--accent-soft); }
+.pub[aria-current='true']::before { background: var(--accent); }
+.pub-line { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.pub-who { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pub-when { color: var(--text-3); font-size: 12px; white-space: nowrap; }
+.pub-badges { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; font-size: 12px; color: var(--text-2); }
+.pub-empty { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+/* Mobile publish picker */
+.picker { display: block; margin-bottom: 16px; }
+.picker label { display: block; font-size: 12px; color: var(--text-3); margin: 0 0 4px; }
+@media (min-width: 1024px) { .picker { display: none; } }
+
+/* Badges (small markers only) */
+.badge { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tc, var(--c-meta)); flex: none; }
+.t-added { --tc: var(--c-added); }
+.t-deleted { --tc: var(--c-deleted); }
+.t-renamed { --tc: var(--c-renamed); }
+.t-value_changed, .t-alias_changed, .t-alias_added, .t-alias_removed { --tc: var(--c-changed); }
+.t-meta_changed, .t-collection_changed { --tc: var(--c-meta); }
+.pill { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: 999px; font-size: 11px; border: 1px solid var(--border-strong); color: var(--text-2); white-space: nowrap; }
+
+/* ---------- Detail ---------- */
+.detail-head { padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.detail-head h2 { margin: 0; font-size: 20px; line-height: 1.3; font-weight: 600; }
+.detail-note { margin: 8px 0 0; padding-left: 10px; border-left: 2px solid var(--border-strong); color: var(--text-2); overflow-wrap: anywhere; }
+.detail-meta { margin-top: 6px; color: var(--text-2); display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.detail-actions { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { min-height: 40px; padding: 0 14px; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: var(--raised); cursor: pointer; font-weight: 500; transition: background-color 120ms linear; }
+@media (hover: hover) { .btn:hover { background: var(--page-2); } }
+.copied { color: var(--c-added); font-size: 13px; }
+.detail-summary { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--text-2); font-size: 13px; }
+
+.group { margin-top: 24px; }
+.group-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--text-2); margin: 0 0 4px; }
+.group-title .count { color: var(--text-3); font-weight: 400; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.row { padding: 12px 0 12px 14px; border-top: 1px solid var(--border); position: relative; min-width: 0; }
+.row:first-child { border-top: 0; }
+.row.tick::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 3px; background: var(--tc); }
+.row-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.var-btn { background: none; border: 0; padding: 2px 0; margin: 0; cursor: pointer; text-align: left; color: var(--text); font-family: var(--font-mono); font-size: 13px; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; min-height: 28px; }
+@media (hover: hover) { .var-btn:hover { text-decoration-color: currentColor; } }
+.coll { font-size: 12px; color: var(--text-3); }
+.row-note { font-size: 12px; color: var(--text-3); }
+.struck { text-decoration: line-through; color: var(--text-3); }
+.warn { margin-top: 6px; font-size: 12px; color: var(--c-deleted); display: flex; gap: 6px; align-items: center; }
+.warn::before { content: '!'; display: inline-grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid currentColor; font-size: 10px; font-weight: 600; flex: none; }
+
+.modes { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 8px; }
+.mode { min-width: 0; max-width: 100%; }
+.mode-name { font-size: 11px; color: var(--text-3); margin-bottom: 4px; }
+.change { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; min-width: 0; }
+.arrow { color: var(--text-3); flex: none; }
+.val { display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+.val .mono { overflow-wrap: anywhere; }
+.alias-mark { color: var(--text-3); font-family: var(--font-mono); }
+.delta { font-size: 12px; color: var(--text-3); }
+.missing { color: var(--c-deleted); font-size: 12px; }
+
+.swatch { width: 28px; height: 28px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); flex: none; position: relative; overflow: hidden;
+  background-color: #fff; background-image: linear-gradient(45deg, #d9d9d9 25%, transparent 25%, transparent 75%, #d9d9d9 75%), linear-gradient(45deg, #d9d9d9 25%, transparent 25%, transparent 75%, #d9d9d9 75%); background-size: 8px 8px; background-position: 0 0, 4px 4px; }
+.swatch::after { content: ''; position: absolute; inset: 0; background: var(--c); }
+.swatch.small { width: 18px; height: 18px; border-radius: 4px; }
+.preview-bar { height: 6px; border-radius: 3px; background: var(--accent); opacity: 0.6; flex: none; }
+.preview-radius { width: 24px; height: 24px; border: 1.5px solid var(--accent); border-right: 0; border-bottom: 0; opacity: 0.7; flex: none; }
+
+.path-seg mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 2px; }
+.meta-field { margin-top: 6px; display: grid; gap: 2px; }
+.t-library { --tc: var(--accent); }
+.lib-label { font-size: 12px; color: var(--text-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip { font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 2px 8px; overflow-wrap: anywhere; max-width: 100%; }
+.chip.deleted { text-decoration: line-through; color: var(--text-3); }
+.meta-label { font-size: 11px; color: var(--text-3); }
+
+.baseline-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+.baseline-table th, .baseline-table td { text-align: left; padding: 10px 8px 10px 0; border-top: 1px solid var(--border); vertical-align: top; }
+.baseline-table th { font-weight: 500; color: var(--text-3); font-size: 12px; border-top: 0; }
+.baseline-table td.num { text-align: right; font-variant-numeric: tabular-nums; padding-right: 0; }
+.baseline-table td.modes-cell { color: var(--text-2); overflow-wrap: anywhere; }
+
+.state { padding: 48px 0; max-width: 560px; }
+.state h2 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+.state p { margin: 0 0 8px; color: var(--text-2); }
+.state code { font-family: var(--font-mono); font-size: 13px; background: var(--page-2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+.skeleton { height: 14px; border-radius: 4px; background: var(--page-2); margin: 10px 0; }
+
+/* ---------- Drawer ---------- */
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: var(--z-modal); opacity: 0; transition: opacity 400ms var(--ease-in); }
+.drawer { position: fixed; z-index: var(--z-modal); background: var(--raised); box-shadow: var(--shadow-drawer); display: flex; flex-direction: column;
+  left: 0; right: 0; bottom: 0; max-height: 88vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  transform: translateY(100%); transition: transform 400ms var(--ease-in); }
+@media (min-width: 600px) { .drawer { left: auto; top: 0; bottom: 0; width: min(520px, 92vw); max-height: none; border-radius: 0; transform: translateX(100%); } }
+.drawer-open .scrim { opacity: 1; transition: opacity 500ms var(--ease-out); }
+.drawer-open .drawer { transform: none; transition: transform 500ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .drawer, .drawer-open .drawer { transform: none; opacity: 0; transition: opacity 150ms linear; }
+  .drawer-open .drawer { opacity: 1; }
+  .scrim, .drawer-open .scrim { transition: opacity 150ms linear; }
+}
+.drawer-head { padding: 16px 16px 12px 20px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start; }
+.drawer-head h2 { margin: 0; font: 500 15px/1.4 var(--font-mono); overflow-wrap: anywhere; flex: 1; }
+.drawer-head p { margin: 2px 0 0; font: 400 12px/1.4 var(--font-sans); color: var(--text-3); }
+.icon-btn { width: 44px; height: 44px; margin: -8px -4px 0 0; border: 0; background: none; border-radius: var(--radius-md); cursor: pointer; font-size: 22px; line-height: 1; color: var(--text-2); flex: none; }
+@media (hover: hover) { .icon-btn:hover { background: var(--page-2); } }
+.drawer-body { overflow-y: auto; padding: 4px 20px 32px; overscroll-behavior: contain; }
+.story { list-style: none; margin: 0; padding: 0; }
+.story > li { padding: 14px 0; border-top: 1px solid var(--border); }
+.story > li:first-child { border-top: 0; }
+.story-when { font-size: 12px; color: var(--text-3); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.story-what { margin-top: 4px; }
+.story .row { padding: 6px 0 0 14px; border-top: 0; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <h1>Umbrella variable changelog</h1>
+    <p>Every published change to the Umbrella DS variables in Figma.</p>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+  <div id="banner"></div>
+
+  <div class="controls" id="controls" hidden>
+    <div class="field search">
+      <label for="q" class="sr-only">Search variables</label>
+      <input id="q" type="search" placeholder="Search variable names" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="field"><label for="f-publisher" class="sr-only">Publisher</label><select id="f-publisher"></select></div>
+    <div class="field"><label for="f-collection" class="sr-only">Collection</label><select id="f-collection"></select></div>
+    <div class="field"><label for="f-type" class="sr-only">Change type</label><select id="f-type"></select></div>
+    <div class="filter-note" id="filter-note"></div>
+  </div>
+
+  <main class="layout" id="main">
+    <nav class="timeline-wrap" aria-label="Publishes">
+      <p class="timeline-label">Publishes, newest first</p>
+      <ol class="timeline" id="timeline"></ol>
+    </nav>
+    <section id="detail" aria-live="polite">
+      <div class="skeleton" style="width:40%"></div>
+      <div class="skeleton" style="width:70%"></div>
+      <div class="skeleton" style="width:55%"></div>
+    </section>
+  </main>
+</div>
+
+<div id="drawer-root" hidden>
+  <div class="scrim" data-close></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-head">
+      <h2 id="drawer-title"></h2>
+      <button class="icon-btn" type="button" data-close aria-label="Close variable history">×</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  'use strict'
+
+  // ---------- Config ----------
+  const params = new URLSearchParams(location.search)
+  const USE_SAMPLE = params.has('sample')
+  const DATA_PATH = USE_SAMPLE ? 'data/sample-changelog.json' : 'data/changelog.json'
+
+  const GROUPS = [
+    { key: 'alias', label: 'Alias changes', types: ['alias_changed', 'alias_added', 'alias_removed'] },
+    { key: 'value', label: 'Values changed', types: ['value_changed'] },
+    { key: 'renamed', label: 'Renamed', types: ['renamed'] },
+    { key: 'deleted', label: 'Deleted', types: ['deleted'] },
+    { key: 'added', label: 'Added', types: ['added'] },
+    { key: 'meta', label: 'Metadata changed', types: ['meta_changed'] },
+    { key: 'collection', label: 'Collections and modes', types: ['collection_changed'] },
+  ]
+  const TYPE_ORDER = GROUPS.flatMap((g) => g.types)
+  const TYPE_LABEL = {
+    alias_changed: 'Alias repointed', alias_added: 'Switched to alias', alias_removed: 'Switched to raw value',
+    value_changed: 'Value changed', renamed: 'Renamed', deleted: 'Deleted', added: 'Added',
+    meta_changed: 'Metadata changed', collection_changed: 'Collection or mode changed',
+  }
+  const PHRASE = {
+    added: ['added', 'added'], deleted: ['deleted', 'deleted'], renamed: ['renamed', 'renamed'],
+    value_changed: ['value changed', 'values changed'], alias_changed: ['alias repointed', 'aliases repointed'],
+    alias_added: ['switched to alias', 'switched to alias'], alias_removed: ['switched to raw value', 'switched to raw value'],
+    meta_changed: ['metadata edit', 'metadata edits'], collection_changed: ['collection change', 'collection changes'],
+  }
+  const META_LABEL = { description: 'Description', scopes: 'Scopes', codeSyntax: 'Code syntax', hidden: 'Hidden from publishing' }
+
+  // ---------- State ----------
+  const state = { data: null, selected: null, q: '', publisher: '', collection: '', type: '', drawerVar: null, lastFocus: null }
+  const $ = (id) => document.getElementById(id)
+
+  // ---------- Helpers ----------
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+  const plural = (n, [one, many]) => `${n} ${n === 1 ? one : many}`
+  const nf = new Intl.NumberFormat('en-IN')
+  const fmtAbs = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
+    .format(new Date(iso)).replace(/\b(am|pm)\b/, (s) => s.toUpperCase())
+  const fmtShort = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(new Date(iso))
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+  function fmtRel(iso) {
+    const secs = (new Date(iso) - Date.now()) / 1000
+    const units = [['year', 31536000], ['month', 2592000], ['week', 604800], ['day', 86400], ['hour', 3600], ['minute', 60]]
+    for (const [unit, s] of units) if (Math.abs(secs) >= s) return rtf.format(Math.round(secs / s), unit)
+    return 'just now'
+  }
+  const isHex = (v) => typeof v === 'string' && /^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(v)
+  const shortSha = (p) => p.shortSha || p.sha.slice(0, 7)
+
+  function changeMatchesName(c, q) {
+    const hay = [c.name, c.from, c.to, c.collection, c.mode].filter(Boolean).join(' ').toLowerCase()
+    return hay.includes(q)
+  }
+  const changeFiltersActive = () => !!(state.q || state.collection || state.type)
+
+  // Styles and components come from Figma's publish event (names only). Variable names from the
+  // event are listed only when the snapshot diff has nothing, since the diff already details them.
+  const LIB_KINDS = [['styles', 'Styles', ['style', 'styles']], ['components', 'Components', ['component', 'components']], ['variables', 'Variables', ['variable', 'variables']]]
+  const LIB_ACTIONS = [['created', 'added'], ['modified', 'modified'], ['deleted', 'deleted']]
+  function libraryItems(p) {
+    const out = []
+    const lib = p.library || {}
+    for (const [kind] of LIB_KINDS) {
+      if (kind === 'variables' && p.changes.length) continue
+      for (const [action] of LIB_ACTIONS) for (const name of lib[kind]?.[action] || []) out.push({ kind, action, name })
+    }
+    return out
+  }
+  function filteredLibrary(p) {
+    if (state.collection || (state.type && state.type !== 'library')) return []
+    const q = state.q.trim().toLowerCase()
+    return libraryItems(p).filter((i) => !q || i.name.toLowerCase().includes(q))
+  }
+  function libraryPhrases(items) {
+    const out = []
+    for (const [kind, , words] of LIB_KINDS) for (const [action, verb] of LIB_ACTIONS) {
+      const n = items.filter((i) => i.kind === kind && i.action === action).length
+      if (n) out.push(`${plural(n, words)} ${verb}`)
+    }
+    return out
+  }
+
+  function filteredChanges(p) {
+    if (state.type === 'library') return []
+    const q = state.q.trim().toLowerCase()
+    return p.changes.filter((c) =>
+      (!q || changeMatchesName(c, q)) &&
+      (!state.collection || c.collection === state.collection || c.from === state.collection) &&
+      (!state.type || (state.type === 'alias' ? c.type.startsWith('alias_') : c.type === state.type)))
+  }
+  function visiblePublishes() {
+    return state.data.publishes.filter((p) => {
+      if (state.publisher && p.publisher !== state.publisher) return false
+      if (changeFiltersActive()) return filteredChanges(p).length > 0 || filteredLibrary(p).length > 0
+      return true
+    })
+  }
+  function summaryOf(changes) {
+    const s = {}
+    for (const c of changes) s[c.type] = (s[c.type] || 0) + 1
+    return s
+  }
+  function summaryPhrases(summary) {
+    return TYPE_ORDER.filter((t) => summary[t]).map((t) => plural(summary[t], PHRASE[t]))
+  }
+
+  // ---------- Value rendering ----------
+  function swatch(hex, small) {
+    return `<span class="swatch${small ? ' small' : ''}" style="--c:${esc(hex)}" aria-hidden="true"></span>`
+  }
+  function preview(name, value) {
+    if (typeof value !== 'number') return ''
+    if (/radius|corner/i.test(name)) return `<span class="preview-radius" style="border-top-left-radius:${Math.min(value, 24)}px" aria-hidden="true"></span>`
+    if (/space|spacing|padding|gap|margin|size|width|height/i.test(name)) return `<span class="preview-bar" style="width:${Math.max(2, Math.min(value, 64))}px" aria-hidden="true"></span>`
+    return ''
+  }
+  function plainValue(v) {
+    if (typeof v === 'boolean') return v ? 'true' : 'false'
+    if (v === '' ) return '""'
+    if (v === undefined || v === null) return '—'
+    return String(v)
+  }
+  /** One side of a mode change. side = 'before' | 'after'. */
+  function sideHtml(m, side, varName) {
+    if (!(side in m)) return '<span class="val"><span class="mono">—</span></span>'
+    const v = m[side]
+    if (m[side + 'Alias']) {
+      const resolved = m[side + 'Resolved']
+      const sw = isHex(resolved) ? swatch(resolved, true) : ''
+      const res = resolved !== undefined && !isHex(resolved) ? ` <span class="delta mono">= ${esc(plainValue(resolved))}</span>` : ''
+      const missing = m[side + 'Missing'] ? ' <span class="missing">missing variable</span>' : ''
+      return `<span class="val"><span class="alias-mark" aria-label="alias to">↳</span>${sw}<span class="mono">${esc(v)}</span>${res}${missing}</span>`
+    }
+    if (isHex(v)) return `<span class="val">${swatch(v)}<span class="mono">${esc(v.toUpperCase())}</span></span>`
+    return `<span class="val">${preview(varName, v)}<span class="mono">${esc(plainValue(v))}</span></span>`
+  }
+  function deltaHtml(m) {
+    if (typeof m.before !== 'number' || typeof m.after !== 'number' || m.beforeAlias || m.afterAlias) return ''
+    const d = Math.round((m.after - m.before) * 1000) / 1000
+    return d ? `<span class="delta">${d > 0 ? '+' : '−'}${Math.abs(d)}</span>` : ''
+  }
+  function modesHtml(c, sides) {
+    const entries = Object.entries(c.modes || {})
+    if (!entries.length) return ''
+    const single = entries.length === 1 && ['Value', 'Default', 'Mode 1'].includes(entries[0][0])
+    return `<div class="modes">${entries.map(([mode, m]) => {
+      let body
+      if (sides === 'both') body = `${sideHtml(m, 'before', c.name)}<span class="arrow" aria-label="changed to">→</span>${sideHtml(m, 'after', c.name)}${deltaHtml(m)}`
+      else body = sideHtml(m, sides, c.name)
+      return `<div class="mode">${single ? '' : `<div class="mode-name">${esc(mode)}</div>`}<div class="change">${body}</div></div>`
+    }).join('')}</div>`
+  }
+
+  function pathDiff(from, to) {
+    const a = from.split('/'), b = to.split('/')
+    const mark = (segs, other) => segs.map((s, i) => (other[i] === s ? esc(s) : `<mark>${esc(s)}</mark>`)).join('/')
+    return { from: mark(a, b), to: mark(b, a) }
+  }
+  function fmtMeta(field, v) {
+    if (field === 'hidden') return v ? 'Yes' : 'No'
+    if (field === 'scopes') return Array.isArray(v) && v.length ? v.join(', ') : 'None'
+    if (field === 'codeSyntax') {
+      const e = Object.entries(v || {})
+      return e.length ? e.map(([k, val]) => `${k}: ${val}`).join(' · ') : 'None'
+    }
+    return v ? v : 'Empty'
+  }
+  function varButton(c, label) {
+    if (!c.varId) return `<span class="mono">${esc(label ?? c.name)}</span>`
+    return `<button type="button" class="var-btn" data-var="${esc(c.varId)}" title="Show history">${esc(label ?? c.name)}</button>`
+  }
+
+  function changeHtml(c, { showCollection = true } = {}) {
+    const coll = showCollection && c.collection ? `<span class="coll">${esc(c.collection)}</span>` : ''
+    switch (c.type) {
+      case 'value_changed':
+      case 'alias_changed':
+      case 'alias_added':
+      case 'alias_removed': {
+        const note = c.type === 'alias_added' ? '<span class="pill">now an alias</span>' : c.type === 'alias_removed' ? '<span class="pill">no longer an alias</span>' : ''
+        return `<li class="row t-${c.type}"><div class="row-head">${varButton(c)}${coll}${note}</div>${modesHtml(c, 'both')}</li>`
+      }
+      case 'renamed': {
+        const d = pathDiff(c.from, c.to)
+        const likely = c.confidence === 'inferred' ? '<span class="pill" title="Matched by identical values; Figma IDs were not available for this publish">likely rename</span>' : ''
+        return `<li class="row t-renamed"><div class="row-head"><span class="mono struck path-seg">${d.from}</span><span class="arrow" aria-label="renamed to">→</span><button type="button" class="var-btn path-seg" data-var="${esc(c.varId)}" title="Show history">${d.to}</button>${coll}${likely}</div></li>`
+      }
+      case 'added':
+        return `<li class="row tick t-added"><div class="row-head">${varButton(c)}${coll}</div>${modesHtml(c, 'after')}</li>`
+      case 'deleted':
+        return `<li class="row tick t-deleted"><div class="row-head"><span class="struck">${varButton(c)}</span>${coll}</div>${modesHtml(c, 'before')}<div class="warn">Check code usages before the next release.</div></li>`
+      case 'meta_changed': {
+        const fields = Object.entries(c.fields || {}).map(([f, { before, after }]) =>
+          `<div class="meta-field"><span class="meta-label">${esc(META_LABEL[f] || f)}</span><div class="change"><span class="mono">${esc(fmtMeta(f, before))}</span><span class="arrow" aria-label="changed to">→</span><span class="mono">${esc(fmtMeta(f, after))}</span></div></div>`).join('')
+        return `<li class="row t-meta_changed"><div class="row-head">${varButton(c)}${coll}</div>${fields}</li>`
+      }
+      case 'collection_changed': {
+        const b = (s) => `<strong>${esc(s)}</strong>`
+        const text = {
+          added: () => `Collection ${b(c.collection)} added${c.modes?.length ? ` with modes ${esc(c.modes.join(', '))}` : ''}.`,
+          removed: () => `Collection ${b(c.collection)} removed.`,
+          renamed: () => `Collection renamed from ${b(c.from)} to ${b(c.to)}.`,
+          mode_added: () => `Mode ${b(c.mode)} added to ${b(c.collection)}.`,
+          mode_removed: () => `Mode ${b(c.mode)} removed from ${b(c.collection)}.`,
+          mode_renamed: () => `Mode in ${b(c.collection)} renamed from ${b(c.from)} to ${b(c.to)}.`,
+        }[c.action]
+        return `<li class="row t-collection_changed"><div>${text ? text() : esc(c.action)}</div></li>`
+      }
+      default:
+        return `<li class="row"><span class="mono">${esc(JSON.stringify(c))}</span></li>`
+    }
+  }
+
+  // ---------- Timeline ----------
+  function badgesHtml(summary, libCount = 0) {
+    const parts = []
+    const amber = (summary.value_changed || 0) + (summary.alias_changed || 0) + (summary.alias_added || 0) + (summary.alias_removed || 0)
+    const show = [
+      ['alias_changed', amber, 'values or aliases changed'], ['renamed', summary.renamed, 'renamed'],
+      ['deleted', summary.deleted, 'deleted'], ['added', summary.added, 'added'],
+      ['meta_changed', (summary.meta_changed || 0) + (summary.collection_changed || 0), 'metadata or collection changes'],
+    ]
+    show.push(['library', libCount, 'styles or components'])
+    for (const [t, n, label] of show) if (n) parts.push(`<span class="badge t-${t}" title="${n} ${label}"><span class="dot"></span>${nf.format(n)}<span class="sr-only"> ${label}</span></span>`)
+    return parts.join('')
+  }
+
+  function renderTimeline(pubs) {
+    $('timeline').innerHTML = pubs.map((p) => {
+      const changes = changeFiltersActive() ? filteredChanges(p) : p.changes
+      const lib = changeFiltersActive() ? filteredLibrary(p) : libraryItems(p)
+      const sub = p.baseline
+        ? `<div class="pub-empty">Baseline · ${nf.format(p.variableCount)} variables</div>`
+        : changes.length || lib.length ? `<div class="pub-badges">${badgesHtml(summaryOf(changes), lib.length)}</div>` : '<div class="pub-empty">No changes</div>'
+      return `<li><button type="button" class="pub" data-sha="${esc(p.sha)}" aria-current="${p === state.selected}">
+        <div class="pub-line"><span class="pub-who">${esc(p.publisher)}</span><time class="pub-when" datetime="${esc(p.date)}" title="${esc(fmtAbs(p.date))}">${esc(fmtRel(p.date))}</time></div>${sub}</button></li>`
+    }).join('')
+
+    // Mobile picker
+    const picker = document.getElementById('picker-select')
+    if (picker) {
+      picker.innerHTML = pubs.map((p) => {
+        const n = changeFiltersActive() ? filteredChanges(p).length + filteredLibrary(p).length : p.changes.length + libraryItems(p).length
+        const what = p.baseline ? `Baseline · ${nf.format(p.variableCount)} variables` : plural(n, ['change', 'changes'])
+        return `<option value="${esc(p.sha)}"${p === state.selected ? ' selected' : ''}>${esc(fmtShort(p.date))} · ${esc(p.publisher)} · ${esc(what)}</option>`
+      }).join('')
+    }
+  }
+
+  // ---------- Detail ----------
+  function renderDetail(pubs) {
+    const el = $('detail')
+    if (!state.data.publishes.length) {
+      el.innerHTML = `<div class="state"><h2>No publishes yet</h2>
+        <p>The changelog fills in after the <strong>Sync Figma variables to tokens</strong> Action runs once and its pull request is merged into <code>main</code>.</p>
+        <p>Run it from the repository's Actions tab. To preview this page with example data, add <a href="?sample"><code>?sample</code></a> to the URL.</p></div>`
+      return
+    }
+    if (!pubs.length) {
+      el.innerHTML = `<div class="state"><h2>No matching changes</h2><p>No publish matches these filters. Try a different search, or clear the filters.</p>
+        <button type="button" class="btn" data-clear>Clear filters</button></div>`
+      return
+    }
+    const p = state.selected
+    const picker = `<div class="picker"><label for="picker-select">Publish</label><div class="field"><select id="picker-select"></select></div></div>`
+
+    const links = [
+      p.prUrl ? `<a href="${esc(p.prUrl)}" target="_blank" rel="noopener">Pull request #${esc(p.prNumber)}</a>` : '',
+      p.commitUrl ? `<a href="${esc(p.commitUrl)}" target="_blank" rel="noopener" class="mono">${esc(shortSha(p))}</a>` : `<span class="mono">${esc(shortSha(p))}</span>`,
+    ].filter(Boolean).join('')
+
+    if (p.baseline) {
+      const rows = (p.collections || []).map((c) => `<tr><td>${esc(c.name)}</td><td class="modes-cell">${esc(c.modes.join(', '))}</td><td class="num">${nf.format(c.count)}</td></tr>`).join('')
+      el.innerHTML = `${picker}<div class="detail-head"><h2>Baseline · ${nf.format(p.variableCount)} variables</h2>
+        <div class="detail-meta"><span>${esc(p.publisher)} · ${esc(fmtAbs(p.date))}</span>${links}</div></div>
+        <p style="color:var(--text-2);margin:16px 0 0">This is the first snapshot. Later publishes are compared against it.</p>
+        <table class="baseline-table"><thead><tr><th>Collection</th><th>Modes</th><th style="text-align:right">Variables</th></tr></thead><tbody>${rows}</tbody></table>`
+      renderTimeline(pubs)
+      return
+    }
+
+    const changes = changeFiltersActive() ? filteredChanges(p) : p.changes
+    const allLib = libraryItems(p)
+    const lib = changeFiltersActive() ? filteredLibrary(p) : allLib
+    const total = p.changes.length + allLib.length
+    const shown = changes.length + lib.length
+    const heading = total === 0
+      ? `${esc(p.publisher)} published with no changes`
+      : `${esc(p.publisher)} published ${plural(total, ['change', 'changes'])}`
+    const filteredNote = changeFiltersActive() && shown !== total ? `<span>Showing ${nf.format(shown)} of ${nf.format(total)}</span>` : ''
+
+    let body
+    if (total === 0) body = '<div class="state" style="padding:24px 0"><p>No changes in this publish.</p></div>'
+    else body = GROUPS.map((g) => {
+      const items = changes.filter((c) => g.types.includes(c.type))
+      if (!items.length) return ''
+      return `<section class="group" aria-label="${esc(g.label)}"><h3 class="group-title t-${g.types[0]}"><span class="dot"></span>${esc(g.label)} <span class="count">${nf.format(items.length)}</span></h3>
+        <ul class="rows">${items.map((c) => changeHtml(c)).join('')}</ul></section>`
+    }).join('') + libraryHtml(lib)
+
+    el.innerHTML = `${picker}<div class="detail-head"><h2>${heading}</h2>
+      ${p.note ? `<p class="detail-note">${esc(p.note)}</p>` : ''}
+      <div class="detail-meta"><time datetime="${esc(p.date)}">${esc(fmtAbs(p.date))}</time>${links}${filteredNote}</div>
+      ${total ? `<div class="detail-summary">${[...summaryPhrases(p.summary), ...libraryPhrases(allLib)].map((s) => `<span>${esc(s)}</span>`).join('')}</div>` : ''}
+      <div class="detail-actions"><button type="button" class="btn" id="copy-btn">Copy summary</button><span class="copied" id="copy-status" role="status"></span></div>
+      </div>${body}`
+    renderTimeline(pubs)
+  }
+
+  function libraryHtml(items) {
+    if (!items.length) return ''
+    const onlyVars = items.every((i) => i.kind === 'variables')
+    const rows = []
+    for (const [kind, label] of LIB_KINDS) for (const [action, verb] of LIB_ACTIONS) {
+      const names = items.filter((i) => i.kind === kind && i.action === action).map((i) => i.name)
+      if (!names.length) continue
+      rows.push(`<li class="row"><div class="row-head"><span class="lib-label">${esc(label)} ${esc(verb)}</span></div>
+        <div class="chips">${names.map((n) => `<span class="chip${action === 'deleted' ? ' deleted' : ''}">${esc(n)}</span>`).join('')}</div></li>`)
+    }
+    const title = onlyVars ? 'Published in Figma' : 'Components & styles'
+    return `<section class="group" aria-label="${title}"><h3 class="group-title t-library"><span class="dot"></span>${title} <span class="count">${nf.format(items.length)}</span></h3><ul class="rows">${rows.join('')}</ul></section>`
+  }
+
+  function render() {
+    const pubs = visiblePublishes()
+    if (!pubs.includes(state.selected)) state.selected = pubs[0] || null
+    renderDetail(pubs)
+    if (!state.data.publishes.length || !pubs.length) renderTimeline(pubs)
+    renderFilterNote(pubs)
+    if (state.selected) history.replaceState(null, '', `${location.pathname}${location.search}#${shortSha(state.selected)}`)
+  }
+
+  function renderFilterNote(pubs) {
+    const active = state.q || state.publisher || state.collection || state.type
+    $('filter-note').innerHTML = active
+      ? `<span>Showing ${nf.format(pubs.length)} of ${nf.format(state.data.publishes.length)} publishes</span><button type="button" class="link-btn" data-clear>Clear filters</button>`
+      : ''
+  }
+
+  // ---------- Copy summary ----------
+  function copyText(p) {
+    if (p.baseline) return `${p.publisher} · ${fmtShort(p.date)} · Baseline, ${p.variableCount} variables`
+    const phrases = [...summaryPhrases(p.summary), ...libraryPhrases(libraryItems(p))]
+    return `${p.publisher} · ${fmtShort(p.date)} · ${phrases.length ? phrases.join(', ') : 'no changes'}${p.prUrl ? ` · ${p.prUrl}` : ''}`
+  }
+  async function copySummary() {
+    const text = copyText(state.selected)
+    let ok = false
+    try { await navigator.clipboard.writeText(text); ok = true } catch {
+      const ta = document.createElement('textarea')
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'
+      document.body.appendChild(ta); ta.select()
+      try { ok = document.execCommand('copy') } catch { ok = false }
+      ta.remove()
+    }
+    const status = $('copy-status')
+    if (status) {
+      status.textContent = ok ? 'Copied' : 'Could not copy. Select and copy this: ' + text
+      setTimeout(() => { if (status.isConnected && ok) status.textContent = '' }, 2000)
+    }
+  }
+
+  // ---------- Variable history drawer ----------
+  function openDrawer(varId, trigger) {
+    const events = []
+    const pubsOldestFirst = [...state.data.publishes].reverse()
+    for (const p of pubsOldestFirst) for (const c of p.changes) if (c.varId === varId) events.push({ p, c })
+    if (!events.length) return
+    const latest = events[events.length - 1].c
+    const currentName = latest.type === 'renamed' ? latest.to : latest.name
+    const isDeleted = latest.type === 'deleted'
+    const hadAdded = events.some((e) => e.c.type === 'added')
+    const baseline = state.data.publishes.find((p) => p.baseline)
+
+    $('drawer-title').innerHTML = `${esc(currentName)}<p>${esc(latest.collection || '')}${isDeleted ? ' · deleted' : ''} · ${plural(events.length, ['change', 'changes'])}</p>`
+    const items = []
+    if (!hadAdded && baseline) items.push(`<li><div class="story-when"><span>${esc(fmtAbs(baseline.date))}</span></div><div class="story-what" style="color:var(--text-2)">Present in the baseline snapshot.</div></li>`)
+    for (const { p, c } of events) {
+      items.push(`<li><div class="story-when"><span class="badge t-${c.type}"><span class="dot"></span>${esc(TYPE_LABEL[c.type])}</span><span>${esc(p.publisher)} · ${esc(fmtAbs(p.date))}</span>
+        <button type="button" class="link-btn" data-goto="${esc(p.sha)}">View publish</button></div>
+        <ul class="rows story-what">${changeHtml(c, { showCollection: false })}</ul></li>`)
+    }
+    $('drawer-body').innerHTML = `<ol class="story">${items.join('')}</ol>`
+
+    state.drawerVar = varId
+    state.lastFocus = trigger || document.activeElement
+    const root = $('drawer-root')
+    root.hidden = false
+    document.body.style.overflow = 'hidden'
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('drawer-open')))
+    root.querySelector('.icon-btn').focus({ preventScroll: true })
+  }
+  function closeDrawer() {
+    const root = $('drawer-root')
+    if (root.hidden) return
+    root.classList.remove('drawer-open')
+    const done = () => { if (!root.classList.contains('drawer-open')) root.hidden = true }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+    setTimeout(done, reduce ? 160 : 420)
+    document.body.style.overflow = ''
+    state.drawerVar = null
+    if (state.lastFocus && state.lastFocus.isConnected) state.lastFocus.focus({ preventScroll: true })
+  }
+
+  // ---------- Filters ----------
+  function fillSelect(id, label, values) {
+    const sel = $(id)
+    sel.innerHTML = `<option value="">${esc(label)}</option>` + values.map(([v, text]) => `<option value="${esc(v)}">${esc(text)}</option>`).join('')
+  }
+  function setupFilters() {
+    const pubs = state.data.publishes
+    const publishers = [...new Set(pubs.map((p) => p.publisher))].sort((a, b) => a.localeCompare(b))
+    const collections = [...new Set([...(state.data.collections || []).map((c) => c.name), ...pubs.flatMap((p) => p.changes.map((c) => c.collection))])].filter(Boolean).sort((a, b) => a.localeCompare(b))
+    fillSelect('f-publisher', 'All publishers', publishers.map((p) => [p, p]))
+    fillSelect('f-collection', 'All collections', collections.map((c) => [c, c]))
+    fillSelect('f-type', 'All change types', [
+      ['alias', 'Alias changes'], ['value_changed', 'Values changed'], ['renamed', 'Renamed'], ['deleted', 'Deleted'],
+      ['added', 'Added'], ['meta_changed', 'Metadata changed'], ['collection_changed', 'Collections and modes'], ['library', 'Components & styles'],
+    ])
+    let t
+    $('q').addEventListener('input', (e) => { clearTimeout(t); t = setTimeout(() => { state.q = e.target.value; render() }, 120) })
+    $('f-publisher').addEventListener('change', (e) => { state.publisher = e.target.value; render() })
+    $('f-collection').addEventListener('change', (e) => { state.collection = e.target.value; render() })
+    $('f-type').addEventListener('change', (e) => { state.type = e.target.value; render() })
+  }
+  function clearFilters() {
+    Object.assign(state, { q: '', publisher: '', collection: '', type: '' })
+    $('q').value = ''; $('f-publisher').value = ''; $('f-collection').value = ''; $('f-type').value = ''
+    render()
+  }
+
+  function selectBySha(sha, { scroll } = {}) {
+    if (!sha) return false
+    const p = state.data.publishes.find((x) => x.sha === sha || x.sha.startsWith(sha) || x.shortSha === sha)
+    if (!p) return false
+    if (!visiblePublishes().includes(p)) clearFilters()
+    state.selected = p
+    render()
+    if (scroll) $('detail').scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+    return true
+  }
+
+  // ---------- Events ----------
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-sha],[data-var],[data-close],[data-goto],[data-clear],#copy-btn')
+    if (!t) return
+    if (t.matches('[data-close]')) return closeDrawer()
+    if (t.matches('[data-clear]')) return clearFilters()
+    if (t.id === 'copy-btn') return copySummary()
+    if (t.dataset.goto) { closeDrawer(); return selectBySha(t.dataset.goto, { scroll: true }) }
+    if (t.dataset.var) return openDrawer(t.dataset.var, t)
+    if (t.dataset.sha) { selectBySha(t.dataset.sha); document.querySelector(`.pub[data-sha="${CSS.escape(t.dataset.sha)}"]`)?.focus({ preventScroll: true }) }
+  })
+  document.addEventListener('change', (e) => { if (e.target.id === 'picker-select') selectBySha(e.target.value) })
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.drawerVar) { e.preventDefault(); closeDrawer(); return }
+    // Keep focus inside the open drawer.
+    if (e.key === 'Tab' && state.drawerVar) {
+      const f = [...$('drawer-root').querySelectorAll('button, a[href]')].filter((n) => n.offsetParent !== null)
+      if (!f.length) return
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus() }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus() }
+      return
+    }
+    // Arrow keys move through the timeline.
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && e.target.classList?.contains('pub')) {
+      e.preventDefault()
+      const btns = [...document.querySelectorAll('.pub')]
+      const next = btns[btns.indexOf(e.target) + (e.key === 'ArrowDown' ? 1 : -1)]
+      if (next) { selectBySha(next.dataset.sha); document.querySelector(`.pub[data-sha="${CSS.escape(next.dataset.sha)}"]`)?.focus() }
+    }
+  })
+  window.addEventListener('hashchange', () => {
+    const sha = location.hash.slice(1)
+    if (sha && (!state.selected || !state.selected.sha.startsWith(sha))) selectBySha(sha)
+  })
+
+  // ---------- Boot ----------
+  function renderStats() {
+    const d = state.data
+    const latest = d.publishes[0]
+    const vars = (d.collections || []).reduce((n, c) => n + c.count, 0)
+    const parts = []
+    if (d.collections?.length) parts.push(`${nf.format(d.collections.length)} collections`, `${nf.format(vars)} variables`)
+    parts.push(plural(d.publishes.length, ['publish', 'publishes']))
+    if (latest) parts.push(`last published ${fmtRel(latest.date)}`)
+    $('stats').textContent = parts.join(' · ')
+  }
+
+  async function boot() {
+    let res
+    const url = new URL(DATA_PATH, location.href).href
+    try {
+      res = await fetch(DATA_PATH, { cache: 'no-store' })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      state.data = await res.json()
+      if (!Array.isArray(state.data.publishes)) throw new Error('The file has no "publishes" list')
+    } catch (err) {
+      $('detail').innerHTML = `<div class="state"><h2>Couldn't load the changelog</h2>
+        <p>Tried to load <code>${esc(url)}</code> and got: ${esc(err.message)}.</p>
+        <p>Locally, run <code>npm run changelog</code> and then <code>npm run serve</code>. On GitHub Pages, check that the “Build and deploy variable changelog” workflow finished. To preview with example data, open <a href="?sample"><code>?sample</code></a>.</p></div>`
+      return
+    }
+    if (USE_SAMPLE) $('banner').innerHTML = `<div class="banner">You're viewing sample data. <a href="${esc(location.pathname)}">Open the real changelog</a>.</div>`
+    renderStats()
+    $('controls').hidden = !state.data.publishes.length
+    setupFilters()
+    const hash = location.hash.slice(1)
+    if (!selectBySha(hash)) { state.selected = state.data.publishes[0] || null; render() }
+  }
+  boot()
+})()
+</script>
+</body>
+</html>
